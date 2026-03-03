@@ -1,0 +1,27 @@
+# Secrets
+.env.local
+*.pem
+*.key
+
+# SSH private keys & host IPs
+.ssh/id_*
+.ssh/hetzner-*
+.ssh/hosts.local
+!*.pub
+!hosts.local.template
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Misc
+Brewfile.lock.json
+Brewfile.full

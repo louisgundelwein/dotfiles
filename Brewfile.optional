@@ -1,0 +1,45 @@
+# -----------------------------------------------
+# Optional Brewfile
+# Install with: brew bundle --file=Brewfile.optional
+# -----------------------------------------------
+
+# --- Formulae ---
+brew "balena-cli"                       # balenaOS IoT fleet management CLI
+brew "cocoapods"                        # iOS dependency manager
+brew "dotnet"                           # .NET runtime & SDK
+brew "libspnav"                         # 3D mouse (SpaceNavigator) driver
+brew "ncspot"                           # Terminal Spotify client
+brew "neofetch"                         # System info display (legacy)
+brew "pixi"                             # Conda-compatible package manager
+
+# --- Gaming ---
+cask "minecraft"                        # Block-building sandbox game
+cask "prismlauncher"                    # Minecraft launcher (modding)
+cask "steam"                            # Game distribution platform
+
+# --- 3D Printing / CAD ---
+cask "autodesk-fusion"                  # CAD/CAM design software
+cask "bambu-studio"                     # Bambu Lab 3D printer slicer
+cask "freecad"                          # Open-source parametric CAD
+cask "orcaslicer"                       # 3D printer slicer (Prusa fork)
+
+# --- Music / DJ ---
+cask "rekordbox"                        # DJ music management (Pioneer)
+cask "spotify"                          # Music streaming
+cask "virtualdj"                        # DJ mixing software
+
+# --- Other ---
+cask "android-platform-tools"           # ADB & fastboot
+cask "android-studio"                   # Android IDE
+cask "balenaetcher"                     # USB/SD card image flasher
+cask "beekeeper-studio"                 # SQL database GUI client
+cask "chatgpt"                          # ChatGPT desktop app
+cask "comfyui"                          # Stable Diffusion node-based UI
+cask "discord"                          # Chat & voice platform
+cask "expo-orbit"                       # Expo React Native launcher
+cask "intellij-idea"                    # Java/Kotlin IDE
+cask "libreoffice"                      # Office suite
+cask "microsoft-auto-update"            # Microsoft apps updater
+cask "microsoft-powerpoint"             # Presentation software
+cask "microsoft-teams"                  # Team collaboration & video calls
+cask "utm"                              # Virtual machine manager (macOS)

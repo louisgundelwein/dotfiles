@@ -1,0 +1,19 @@
+[user]
+	name = louisgundelwein
+	email = l.gundelwein@proton.me
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+
+[core]
+	editor = nvim
+	excludesfile = ~/.gitignore_global
+
+[push]
+	autoSetupRemote = true
+
+[rerere]
+	enabled = true
