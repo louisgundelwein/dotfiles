@@ -8,7 +8,6 @@ tap "microsoft/mssql-release"          # Microsoft SQL Server tools
 tap "steipete/tap"                      # steipete's homebrew tap
 tap "stripe/stripe-cli"                 # Stripe CLI tap
 tap "supabase/tap"                      # Supabase CLI tap
-tap "yakitrak/yakitrak"                 # Yakitrak tools tap
 
 # --- Dev Tools ---
 brew "btop"                             # Resource monitor (better htop)
@@ -30,34 +29,24 @@ brew "tree"                             # Directory tree visualizer
 brew "uv"                               # Fast Python package manager
 
 # --- Cloud / Deploy ---
-brew "flyctl"                           # Fly.io CLI
 brew "nixpacks"                         # App source → Docker image builder
 brew "stripe"                           # Stripe CLI for payments
 brew "supabase/tap/supabase"            # Supabase local dev CLI
-brew "vercel-cli"                       # Vercel deployment CLI
 
 # --- Database ---
 brew "libpq"                            # PostgreSQL client library
-brew "unixodbc"                         # ODBC database driver manager
 
 # --- Misc ---
 brew "ollama"                           # Local LLM runner
-brew "poppler"                          # PDF rendering library
-brew "pv"                               # Pipe viewer (progress for pipes)
-brew "smartmontools"                    # Disk health monitoring (S.M.A.R.T.)
 brew "snitch"                           # Network connection monitor
 brew "speedtest-cli"                    # Internet speed test
-brew "tailscale"                        # Mesh VPN (CLI)
 brew "watchman"                         # File watcher (used by React Native)
-brew "wimlib"                           # Windows Imaging format tools
-brew "zbar"                             # Barcode/QR code reader library
 
 # --- Essential Apps ---
 cask "1password"                        # Password manager
 cask "1password-cli"                    # 1Password CLI (op)
 cask "claude-code"                      # Claude Code AI assistant
 cask "codex"                            # OpenAI Codex CLI
-cask "cursor"                           # AI-powered code editor
 cask "docker"                           # Docker engine
 cask "docker-desktop"                   # Docker GUI & VM manager
 cask "figma"                            # UI/UX design tool
@@ -71,9 +60,6 @@ cask "proton-mail-bridge"               # Proton Mail IMAP/SMTP bridge
 cask "raycast"                          # Spotlight replacement & launcher
 cask "signal"                           # Encrypted messenger
 cask "surfshark"                        # VPN client
-cask "tailscale"                        # Mesh VPN (GUI app)
 cask "telegram"                         # Messenger
-cask "todoist"                          # Task manager
 cask "visual-studio-code"              # Code editor
 cask "whatsapp"                         # Messenger
-cask "zoom"                             # Video conferencing

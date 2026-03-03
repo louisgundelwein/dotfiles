@@ -25,8 +25,8 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # Trackpad: tap to click
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 
-# Screenshots: save to Desktop
-defaults write com.apple.screencapture location -string "$HOME/Desktop"
+# Screenshots: save to clipboard by default
+defaults write com.apple.screencapture target -string "clipboard"
 
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
