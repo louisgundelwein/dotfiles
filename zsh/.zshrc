@@ -149,6 +149,14 @@ export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
 export DYLD_LIBRARY_PATH="/opt/homebrew/opt/libomp/lib:$DYLD_LIBRARY_PATH"
 
 # -----------------------------------------------
+# SSH hosts.local check
+# -----------------------------------------------
+if [[ ! -f ~/.ssh/hosts.local ]] || [[ ! -s ~/.ssh/hosts.local ]]; then
+  echo "⚠  ~/.ssh/hosts.local is missing or empty. SSH host aliases won't resolve."
+  echo "   Copy the template: cp ~/dotfiles/ssh/.ssh/hosts.local.template ~/.ssh/hosts.local"
+fi
+
+# -----------------------------------------------
 # System Info (at end)
 # -----------------------------------------------
 fastfetch
