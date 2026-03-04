@@ -25,4 +25,13 @@ echo "==> Restoring repo versions..."
 cd "$DOTFILES_DIR"
 git checkout -- .
 
+# 1Password SSH Agent symlink
+OP_AGENT="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+OP_LINK="$HOME/.1password/agent.sock"
+if [ -S "$OP_AGENT" ] && [ ! -e "$OP_LINK" ]; then
+  echo "==> Linking 1Password SSH Agent..."
+  mkdir -p "$HOME/.1password"
+  ln -s "$OP_AGENT" "$OP_LINK"
+fi
+
 echo "==> All dotfiles linked!"

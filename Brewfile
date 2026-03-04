@@ -11,6 +11,7 @@ tap "supabase/tap"                      # Supabase CLI tap
 
 # --- Dev Tools ---
 brew "btop"                             # Resource monitor (better htop)
+brew "ccusage"                          # Claude Code usage analyzer
 brew "fastfetch"                        # System info display (like neofetch)
 brew "ffmpeg"                           # Video/audio converter & streamer
 brew "gh"                               # GitHub CLI

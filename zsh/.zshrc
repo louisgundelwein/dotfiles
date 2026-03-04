@@ -1,7 +1,7 @@
 # -----------------------------------------------
 # Powerlevel10k Instant Prompt (MUST be at top!)
 # -----------------------------------------------
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -27,7 +27,6 @@ plugins=(
   zsh-syntax-highlighting
   zsh-autosuggestions
   zsh-history-substring-search
-  sudo
 )
 
 # Enable Oh My Zsh
@@ -76,12 +75,19 @@ fi
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # -----------------------------------------------
-# NVM Configuration
+# NVM Configuration (lazy-loaded for speed)
 # -----------------------------------------------
 export NVM_DIR="$HOME/.nvm"
 if [[ "$_OS" == "mac" ]]; then
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  nvm() {
+    unfunction nvm node npm npx 2>/dev/null
+    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+    nvm "$@"
+  }
+  node() { nvm use default >/dev/null 2>&1; node "$@" }
+  npm() { nvm use default >/dev/null 2>&1; npm "$@" }
+  npx() { nvm use default >/dev/null 2>&1; npx "$@" }
 else
   [ -s "/usr/share/nvm/init-nvm.sh" ] && \. "/usr/share/nvm/init-nvm.sh"
 fi
@@ -156,12 +162,6 @@ const response = await fetch('url', {
 # -----------------------------------------------
 [ -f ~/.env.local ] && source ~/.env.local
 
-# -----------------------------------------------
-# Tool Completions
-# -----------------------------------------------
-if command -v openclaw &>/dev/null; then
-  source <(openclaw completion --shell zsh)
-fi
 
 # -----------------------------------------------
 # Claude Environment
@@ -187,6 +187,7 @@ if [[ ! -f ~/.ssh/hosts.local ]] || [[ ! -s ~/.ssh/hosts.local ]]; then
 fi
 
 # -----------------------------------------------
-# System Info (at end)
+# System Info
 # -----------------------------------------------
 fastfetch
+
