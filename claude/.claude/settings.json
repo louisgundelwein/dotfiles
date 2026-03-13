@@ -70,7 +70,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/louisgundelwein/.claude/hooks/rtk-rewrite.sh"
+            "command": "~/.claude/hooks/rtk-rewrite.sh"
           }
         ]
       }

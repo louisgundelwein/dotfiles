@@ -1,35 +1,61 @@
 # Dotfiles
 
-Mac setup backup & restore. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Cross-platform setup for **macOS** and **Linux (Arch/CachyOS)**. Managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Quick Start
 
-```bash
-# Clone the repo
-git clone git@github.com:louisgundelwein/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+### One-liner (fresh machine)
 
-# Run the interactive setup
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/louisgundelwein/dotfiles/main/install.sh)
+```
+
+This clones the repo to `~/dotfiles` and launches the interactive bootstrap.
+
+### Manual
+
+```bash
+git clone --recursive git@github.com:louisgundelwein/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 ./bootstrap.sh
 ```
 
-The bootstrap script offers an interactive menu:
+## Bootstrap Modes
 
-1. **Full Installation** — Essential + Optional Homebrew packages, all configs linked
-2. **Essential Only** — Core dev tools and apps only
-3. **Symlinks Only** — Just link dotfiles (if packages are already installed)
-4. **Brewfile Only** — Just install Homebrew packages (no symlinks)
+The bootstrap script detects your OS automatically and offers:
+
+1. **Full Installation** — All packages, configs, and symlinks
+2. **Custom Installation** — Pick categories interactively:
+   - `[1]` Dev Tools - CLI tools (neovim, ripgrep, lazygit, etc.)
+   - `[2]` Shell Setup - Zsh + Oh My Zsh + Plugins + Powerlevel10k
+   - `[3]` Node.js - NVM + Node v22/v25
+   - `[4]` Apps - GUI apps (Browser, Editor, Terminal, etc.)
+   - `[5]` Cloud/Deploy - supabase, stripe, nixpacks, etc.
+   - `[6]` Dotfiles - Symlink configs via Stow
+   - `[7]` Neovim - LazyVim config (git submodule)
+   - `[8]` macOS Defaults - Dock, Finder, Keyboard (macOS only)
+   - `[9]` Optional - Gaming, 3D, Music, etc.
+3. **Symlinks Only** — Just link dotfiles (packages already installed)
+4. **Packages Only** — Just install packages (no symlinks)
 
 ### What bootstrap does
 
-1. Installs Xcode Command Line Tools (if missing)
-2. Installs [Homebrew](https://brew.sh/) (if missing)
-3. Runs `brew bundle` to install all packages from `Brewfile`
-4. Installs [Oh My Zsh](https://ohmyz.sh/) + plugins + [Powerlevel10k](https://github.com/romkatv/powerlevel10k) theme
-5. Installs Node.js versions via [NVM](https://github.com/nvm-sh/nvm)
+**macOS:**
+1. Installs Xcode Command Line Tools
+2. Installs [Homebrew](https://brew.sh/)
+3. Runs `brew bundle` from `Brewfile`
+
+**Linux (Arch/CachyOS):**
+1. Installs packages via `pacman` from `packages/pacman-essential.txt`
+2. Installs AUR packages via `paru`/`yay` from `packages/aur-essential.txt`
+3. Symlinks pacman-installed zsh plugins into Oh My Zsh
+
+**Both:**
+4. Sets up Oh My Zsh + plugins + Powerlevel10k
+5. Installs Node.js versions via NVM
 6. Initializes git submodules (Neovim config)
 7. Links all dotfiles via GNU Stow
-8. Applies macOS system preferences (Dock, Finder, keyboard)
+8. Patches Claude settings with correct home path
 
 ## What's Included
 
@@ -41,14 +67,34 @@ The bootstrap script offers an interactive menu:
 | `gh/` | GitHub CLI config | `~/.config/gh/` |
 | `claude/` | Claude Code settings, hooks, RTK config | `~/.claude/` |
 | `ghostty/` | Ghostty terminal config (Dracula+ theme) | `~/.config/ghostty/` |
-| `nvim/` | Neovim config (git submodule → [LazyVim](https://github.com/LazyVim/starter)) | — |
-| `scripts/` | Helper scripts (not symlinked) | — |
+| `nvim/` | Neovim config (git submodule -> [LazyVim](https://github.com/LazyVim/starter)) | -- |
+| `scripts/` | Helper scripts (not symlinked) | -- |
+| `lib/` | Shared shell functions (detect, ui, packages) | -- |
+| `packages/` | Linux package lists (pacman/AUR) | -- |
+
+## Linux Package Lists
+
+Package lists in `packages/` are plain text files with one package per line. Comments (`#`) and inline comments are supported:
+
+```
+# Dev Tools
+neovim
+ripgrep
+github-cli    # (brew: gh)
+```
+
+| File | Contents |
+|------|----------|
+| `pacman-essential.txt` | Core Arch packages (maps to Brewfile) |
+| `pacman-optional.txt` | Optional Arch packages |
+| `aur-essential.txt` | Essential AUR packages |
+| `aur-optional.txt` | Optional AUR packages |
 
 ## How Stow Works
 
-Each top-level directory is a "stow package". The folder structure inside mirrors your home directory. When you run `stow zsh`, it creates symlinks from `zsh/.zshrc` → `~/.zshrc`, etc.
+Each top-level directory is a "stow package". The folder structure inside mirrors your home directory. When you run `stow zsh`, it creates symlinks from `zsh/.zshrc` -> `~/.zshrc`, etc.
 
-The `scripts/link.sh` wrapper handles all packages at once using `--adopt` mode — if a file already exists at the target, stow adopts it, then `git checkout` restores the repo version so the repo always wins.
+The `scripts/link.sh` wrapper handles all packages at once using `--adopt` mode -- if a file already exists at the target, stow adopts it, then `git checkout` restores the repo version so the repo always wins.
 
 ## Adding New Dotfiles
 
@@ -76,11 +122,14 @@ git commit -m "Update zshrc"
 git push
 ```
 
-### After adding a new Homebrew package
+### After adding a new package
 
 ```bash
-# Add the formula/cask to Brewfile (or Brewfile.optional), then:
+# macOS
 brew bundle --file=~/dotfiles/Brewfile
+
+# Arch
+sudo pacman -S --needed package-name
 ```
 
 ### Pulling changes on another machine
@@ -89,15 +138,19 @@ brew bundle --file=~/dotfiles/Brewfile
 cd ~/dotfiles
 git pull
 ./scripts/link.sh    # Re-link in case new packages were added
-brew bundle --file=Brewfile  # Install any new packages
 ```
 
 ## Optional Apps
 
-Gaming, 3D printing, music/DJ, and other optional apps are in a separate file:
+Gaming, 3D printing, music/DJ, and other optional apps:
 
 ```bash
+# macOS
 brew bundle --file=Brewfile.optional
+
+# Arch (via bootstrap menu or manually)
+sudo pacman -S --needed - < packages/pacman-optional.txt
+paru -S --needed - < packages/aur-optional.txt
 ```
 
 ## Secrets
@@ -111,11 +164,11 @@ cp .env.local.template ~/.env.local
 
 ## SSH Keys & Host IPs
 
-SSH keys are managed via **1Password SSH Agent** — no private keys on disk needed.
+SSH keys are managed via **1Password SSH Agent** -- no private keys on disk needed.
 
 Host **IP addresses** are stored in `~/.ssh/hosts.local` (not in this repo). On a new machine:
 
-1. Install 1Password and enable the SSH Agent (Settings → Developer)
+1. Install 1Password and enable the SSH Agent (Settings -> Developer)
 2. Run `./bootstrap.sh` to link the SSH config
 3. Copy `ssh/.ssh/hosts.local.template` to `~/.ssh/hosts.local` and fill in the IPs
 4. Tip: Store `hosts.local` as a document in 1Password for easy transfer between machines
@@ -128,7 +181,7 @@ ssh ucm-staging
 
 ## macOS Defaults
 
-The setup script applies some system preferences:
+The setup script applies some system preferences (macOS only):
 
 - Dock: autohide enabled, smaller icon size
 - Finder: show path bar, show hidden files
@@ -141,24 +194,37 @@ Re-apply anytime: `./scripts/setup-macos-defaults.sh`
 
 ```
 ~/dotfiles/
-├── bootstrap.sh              # Main setup script (interactive)
-├── Brewfile                   # Essential Homebrew packages
-├── Brewfile.optional          # Optional apps (gaming, 3D, music)
-├── .env.local.template        # Secrets template
-├── CLAUDE.md                  # Claude Code project instructions
+├── install.sh                # Remote one-liner entry point
+├── bootstrap.sh              # Main setup script (OS-aware, interactive)
+├── Brewfile                  # Essential Homebrew packages (macOS)
+├── Brewfile.optional         # Optional Homebrew packages (macOS)
+├── .env.local.template       # Secrets template
+├── CLAUDE.md                 # Claude Code project instructions
 ├── README.md
 │
-├── zsh/                       # ← stow package
-├── git/                       # ← stow package
-├── ssh/                       # ← stow package
-├── gh/                        # ← stow package
-├── claude/                    # ← stow package
-├── ghostty/                   # ← stow package
-├── nvim/                      # ← git submodule
+├── lib/                      # Shared shell functions
+│   ├── detect.sh             #   OS/Distro/Package manager detection
+│   ├── ui.sh                 #   Colors, prompts, menu functions
+│   └── packages.sh           #   Package install abstraction
+│
+├── packages/                 # Linux package lists
+│   ├── pacman-essential.txt  #   Arch core packages
+│   ├── pacman-optional.txt   #   Arch optional packages
+│   ├── aur-essential.txt     #   AUR essential packages
+│   └── aur-optional.txt      #   AUR optional packages
+│
+├── zsh/                      # <- stow package (cross-platform)
+├── git/                      # <- stow package
+├── ssh/                      # <- stow package
+├── gh/                       # <- stow package
+├── claude/                   # <- stow package
+├── ghostty/                  # <- stow package
+├── nvim/                     # <- git submodule
 │
 └── scripts/
-    ├── link.sh                # GNU Stow wrapper
-    ├── install-oh-my-zsh.sh   # Oh My Zsh + plugins + P10k
-    ├── install-nvm-versions.sh # Node.js via NVM
-    └── setup-macos-defaults.sh # macOS system preferences
+    ├── link.sh               # GNU Stow wrapper
+    ├── install-oh-my-zsh.sh  # Oh My Zsh + plugins + P10k (OS-aware)
+    ├── install-nvm-versions.sh # Node.js via NVM (OS-aware)
+    ├── setup-macos-defaults.sh # macOS system preferences
+    └── setup-arch.sh         # Arch-specific setup (plugin symlinks)
 ```

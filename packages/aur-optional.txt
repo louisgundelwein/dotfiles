@@ -1,0 +1,15 @@
+# Gaming
+minecraft-launcher
+prismlauncher
+
+# 3D Printing / CAD
+bambu-studio-bin
+freecad
+orca-slicer-bin
+
+# Music / DJ
+rekordbox
+
+# Other
+beekeeper-studio-bin
+chatgpt-desktop-bin

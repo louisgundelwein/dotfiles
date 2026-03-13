@@ -1,0 +1,11 @@
+# Gaming
+steam
+
+# Music
+spotify-launcher
+ncspot
+
+# Other
+discord
+libreoffice-fresh
+android-tools

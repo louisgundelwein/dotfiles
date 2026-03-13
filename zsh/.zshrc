@@ -7,9 +7,18 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # -----------------------------------------------
+# OS Detection
+# -----------------------------------------------
+if [[ "$(uname)" == "Darwin" ]]; then _OS="mac"; else _OS="linux"; fi
+
+# -----------------------------------------------
 # Oh My Zsh Configuration
 # -----------------------------------------------
-export ZSH=$HOME/.oh-my-zsh
+if [[ "$_OS" == "mac" ]]; then
+  export ZSH="$HOME/.oh-my-zsh"
+else
+  export ZSH="/usr/share/oh-my-zsh"
+fi
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Plugins
@@ -40,21 +49,29 @@ export EDITOR=nvim
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-export PNPM_HOME="$HOME/Library/pnpm"
+if [[ "$_OS" == "mac" ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+if [[ "$_OS" == "mac" ]]; then
+  export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+fi
 
 path=("$HOME/.juliaup/bin" $path)
 export PATH
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH="$PATH:$ANDROID_HOME/emulator"
-export PATH="$PATH:$ANDROID_HOME/platform-tools"
+if [[ "$_OS" == "mac" ]]; then
+  export ANDROID_HOME=$HOME/Library/Android/sdk
+  export PATH="$PATH:$ANDROID_HOME/emulator"
+  export PATH="$PATH:$ANDROID_HOME/platform-tools"
+fi
 
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
@@ -62,8 +79,12 @@ export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 # NVM Configuration
 # -----------------------------------------------
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+if [[ "$_OS" == "mac" ]]; then
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+else
+  [ -s "/usr/share/nvm/init-nvm.sh" ] && \. "/usr/share/nvm/init-nvm.sh"
+fi
 
 # -----------------------------------------------
 # 1Password SSH Agent
@@ -79,8 +100,15 @@ alias gs="git status"
 alias ga="git add ."
 alias gc="git commit -m"
 alias gp="git push"
-alias copy="pbcopy"
-alias paste="pbpaste"
+
+if [[ "$_OS" == "mac" ]]; then
+  alias copy="pbcopy"
+  alias paste="pbpaste"
+else
+  alias copy="wl-copy"
+  alias paste="wl-paste"
+fi
+
 alias dockerbuildllc='grep -v "^[# ]" .env | xargs -I {} docker build -t titanomtechnologies/langenscheidt-language-coach:latest --build-arg {} .'
 
 # -----------------------------------------------
@@ -142,11 +170,13 @@ export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50
 export CLAUDE_CODE_SUBAGENT_MODEL=haiku
 
 # -----------------------------------------------
-# Compiler Flags (libomp)
+# Compiler Flags (macOS only)
 # -----------------------------------------------
-export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
-export DYLD_LIBRARY_PATH="/opt/homebrew/opt/libomp/lib:$DYLD_LIBRARY_PATH"
+if [[ "$_OS" == "mac" ]]; then
+  export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
+  export DYLD_LIBRARY_PATH="/opt/homebrew/opt/libomp/lib:$DYLD_LIBRARY_PATH"
+fi
 
 # -----------------------------------------------
 # SSH hosts.local check

@@ -7,7 +7,7 @@ STOW_PACKAGES=(zsh git ssh gh claude ghostty)
 echo "==> Linking dotfiles with GNU Stow..."
 
 if ! command -v stow &>/dev/null; then
-  echo "    Error: GNU Stow not installed. Run: brew install stow"
+  echo "    Error: GNU Stow not installed. Run: brew install stow (macOS) or sudo pacman -S stow (Arch)"
   exit 1
 fi
 

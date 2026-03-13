@@ -1,0 +1,27 @@
+# Dev Tools
+btop
+fastfetch
+ffmpeg
+github-cli
+git-sizer
+htop
+lazygit
+neovim
+nvm
+python
+ripgrep
+stow
+tldr
+tree
+uv
+
+# Shell
+zsh
+
+# Database
+libpq
+
+# Other
+ollama
+speedtest-cli
+wl-clipboard

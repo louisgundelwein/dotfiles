@@ -8,10 +8,12 @@ export NVM_DIR="$HOME/.nvm"
 # Load NVM
 if [ -s "/opt/homebrew/opt/nvm/nvm.sh" ]; then
   . "/opt/homebrew/opt/nvm/nvm.sh"
+elif [ -s "/usr/share/nvm/init-nvm.sh" ]; then
+  . "/usr/share/nvm/init-nvm.sh"
 elif [ -s "$NVM_DIR/nvm.sh" ]; then
   . "$NVM_DIR/nvm.sh"
 else
-  echo "    NVM not found. Install it first (brew install nvm)."
+  echo "    NVM not found. Install it first (brew install nvm / sudo pacman -S nvm)."
   exit 1
 fi
 
