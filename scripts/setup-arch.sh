@@ -21,12 +21,20 @@ for plugin in "${!PLUGINS[@]}"; do
   src="${PLUGINS[$plugin]}"
   dest="$ZSH_CUSTOM/plugins/$plugin"
   if [ -d "$src" ] && [ ! -e "$dest" ]; then
-    ln -sf "$src" "$dest"
+    sudo ln -sf "$src" "$dest"
     echo "    Linked $plugin"
   elif [ -e "$dest" ]; then
     echo "    $plugin already linked"
   else
     echo "    Warning: $src not found, skipping $plugin"
+    continue
+  fi
+  # Oh My Zsh expects <name>.plugin.zsh -- create it if only <name>.zsh exists
+  plugin_file="$dest/${plugin}.plugin.zsh"
+  zsh_file="$dest/${plugin}.zsh"
+  if [ ! -f "$plugin_file" ] && [ -f "$zsh_file" ]; then
+    sudo ln -sf "$zsh_file" "$plugin_file"
+    echo "    Created .plugin.zsh symlink for $plugin"
   fi
 done
 
