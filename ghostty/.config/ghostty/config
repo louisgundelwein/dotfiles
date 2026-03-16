@@ -1,6 +1,5 @@
 font-family = FiraMono Nerd Font
 shell-integration = none
-command = /usr/bin/zsh
 
 # Catppuccin Macchiato
 background = #24273a
