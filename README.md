@@ -65,7 +65,7 @@ The bootstrap script detects your OS automatically and offers:
 | `git/` | Git config + global gitignore | `~/` |
 | `ssh/` | SSH host aliases (IPs stored separately, see below) | `~/.ssh/` |
 | `gh/` | GitHub CLI config | `~/.config/gh/` |
-| `claude/` | Claude Code settings, hooks, RTK config | `~/.claude/` |
+| `claude/` | Claude Code settings, hooks, RTK config, status line | `~/.claude/` |
 | `ghostty/` | Ghostty terminal config (Dracula+ theme) | `~/.config/ghostty/` |
 | `nvim/` | Neovim config (git submodule -> [LazyVim](https://github.com/LazyVim/starter)) | -- |
 | `scripts/` | Helper scripts (not symlinked) | -- |
@@ -178,6 +178,22 @@ cp ~/dotfiles/ssh/.ssh/hosts.local.template ~/.ssh/hosts.local
 # Fill in the real IPs, then test:
 ssh ucm-staging
 ```
+
+## Claude Code Status Line
+
+The Claude Code status line is configured in `claude/.claude/settings.json` and auto-installs on any new machine once dotfiles are linked via Stow:
+
+```json
+"statusLine": {
+  "type": "command",
+  "command": "npx -y ccstatusline@latest",
+  "padding": 0
+}
+```
+
+This uses [`ccstatusline`](https://www.npmjs.com/package/ccstatusline) to display model info, token usage, and session context in the terminal. It auto-updates to the latest version via `npx -y` — no manual setup needed after `./scripts/link.sh`.
+
+The `bootstrap.sh` script also patches hardcoded home paths in the settings file (`patch_claude_settings`) so it works across different usernames/machines.
 
 ## macOS Defaults
 

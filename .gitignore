@@ -22,6 +22,23 @@
 .vscode/
 .idea/
 
+# Claude Code transient data
+claude/.claude/backups/
+claude/.claude/cache/
+claude/.claude/chrome/
+claude/.claude/file-history/
+claude/.claude/plans/
+claude/.claude/plugins/
+claude/.claude/projects/
+claude/.claude/sessions/
+claude/.claude/session-env/
+claude/.claude/shell-snapshots/
+claude/.claude/history.jsonl
+claude/.claude/mcp-needs-auth-cache.json
+claude/.claude/settings.json.bak
+claude/.claude/settings.json.orig
+claude/.claude/settings.local.json
+
 # Misc
 Brewfile.lock.json
 Brewfile.full
